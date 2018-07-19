@@ -35,22 +35,6 @@ _kube_tmux_binary_check() {
   command -v $1 >/dev/null
 }
 
-_kube_tmux_symbol() {
-  if ((BASH_VERSINFO[0] >= 4)) && [[ $'\u2388 ' != "\\u2388 " ]]; then
-    KUBE_TMUX_SYMBOL=$'\u2388 '
-    KUBE_TMUX_SYMBOL_IMG=$'\u2638 '
-  else
-    KUBE_TMUX_SYMBOL=$'\xE2\x8E\x88 '
-    KUBE_TMUX_SYMBOL_IMG=$'\xE2\x98\xB8 '
-  fi
-
-  if [[ "${KUBE_TMUX_SYMBOL_USE_IMG}" == true ]]; then
-    KUBE_TMUX_SYMBOL="${KUBE_TMUX_SYMBOL_IMG}"
-  fi
-
-  echo "${KUBE_TMUX_SYMBOL}"
-}
-
 _kube_tmux_split() {
   type setopt >/dev/null 2>&1 && setopt SH_WORD_SPLIT
   local IFS=$1
@@ -131,9 +115,6 @@ kube_tmux() {
   _kube_tmux_update_cache
 
   local KUBE_TMUX
-
-  # Symbol
-  KUBE_TMUX+="#[fg=blue]$(_kube_tmux_symbol)#[fg=colour${1}]"
 
   # Context
   KUBE_TMUX+="#[fg=${2}]${KUBE_TMUX_CONTEXT}"
