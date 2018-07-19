@@ -111,10 +111,18 @@ _kube_tmux_get_context_ns() {
   fi
 }
 
+_gcloud_project() {
+  GCLOUD_PROJECT=`gcloud config get-value project |head -1`
+  echo "${GCLOUD_PROJECT}"
+}
+
 kube_tmux() {
   _kube_tmux_update_cache
 
   local KUBE_TMUX
+
+  # gcloud
+  KUBE_TMUX+="#[fg=blue]$(_gcloud_project)#[fg=colour${1}]/"
 
   # Context
   KUBE_TMUX+="#[fg=${2}]${KUBE_TMUX_CONTEXT}"
